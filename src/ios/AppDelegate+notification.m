@@ -96,16 +96,16 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
             pushHandler.isInline = YES;
             [pushHandler notificationReceived];
         }
-        if([userInfo[@"aps"][@"content-available"] intValue]== 1) {
-	    completionHandler(UIBackgroundFetchResultNewData);
-	    return;
-	} else {
-	    completionHandler(UIBackgroundFetchResultNoData);
-	    return;
-	}
     } else {
         //save it for later
         self.launchNotification = userInfo;
+    }
+    if([userInfo[@"aps"][@"content-available"] intValue]== 1) {
+	completionHandler(UIBackgroundFetchResultNewData);
+	return;
+    } else {
+	completionHandler(UIBackgroundFetchResultNoData);
+	return;
     }
 }
 
