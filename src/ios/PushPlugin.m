@@ -256,6 +256,10 @@
 
         NSString * jsCallBack = [NSString stringWithFormat:@"setTimeout(function(){%@(%@)}, 0);", self.callback, jsonStr];
         [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+        
+        //get javascript function to fire in background mode
+        CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
+        [self.commandDelegate sendPluginResult:commandResult callbackId:self.callbackId];
 
         self.notificationMessage = nil;
     }
