@@ -94,18 +94,12 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
             PushPlugin *pushHandler = [controller getCommandInstance:@"PushPlugin"];
             pushHandler.notificationMessage = userInfo;
             pushHandler.isInline = YES;
+            if([userInfo[@"aps"][@"content-available"] intValue]== 1) completionHandler(UIBackgroundFetchResultNewData);
             [pushHandler notificationReceived];
         }
     } else {
         //save it for later
         self.launchNotification = userInfo;
-    }
-    if([userInfo[@"aps"][@"content-available"] intValue]== 1) {
-	completionHandler(UIBackgroundFetchResultNewData);
-	return;
-    } else {
-	completionHandler(UIBackgroundFetchResultNoData);
-	return;
     }
 }
 
