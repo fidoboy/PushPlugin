@@ -77,7 +77,8 @@ static char launchNotificationKey;
     }
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo 
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     NSLog(@"didReceiveNotification");
 
     // Get application state for iOS4.x+ devices, otherwise assume active
@@ -98,6 +99,14 @@ static char launchNotificationKey;
     } else {
         //save it for later
         self.launchNotification = userInfo;
+    }
+    
+    if([userInfo[@"aps"][@"content-available"] intValue]== 1) {
+        completionHandler(UIBackgroundFetchResultNewData);
+        return;
+    } else {
+        completionHandler(UIBackgroundFetchResultNoData);
+        return;
     }
 }
 
