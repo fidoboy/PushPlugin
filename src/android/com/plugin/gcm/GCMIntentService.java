@@ -89,13 +89,18 @@ public class GCMIntentService extends GCMBaseIntentService {
 		
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(context)
-				.setDefaults(Notification.DEFAULT_ALL)
 				.setSmallIcon(context.getApplicationInfo().icon)
 				.setWhen(System.currentTimeMillis())
 				.setContentTitle(extras.getString("title"))
 				.setTicker(extras.getString("title"))
 				.setContentIntent(contentIntent);
-
+		// Support silent notifications
+		boolean silent = Boolean.parseBoolean(extras.getString("silent", "false"));
+		if (silent) {
+			mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
+		} else {
+			mBuilder.setDefaults(Notification.DEFAULT_ALL);
+		}
 		String message = extras.getString("message");
 		if (message != null) {
 			mBuilder.setContentText(message);
@@ -107,6 +112,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if (msgcnt != null) {
 			mBuilder.setNumber(Integer.parseInt(msgcnt));
 		}
+		
+		// turn on the ligths
+	        String ledLight = extras.getString("led");
+	        if(ledLight != null) {
+			mBuilder.setLights(Color.argb(0, 227, 116, 0), 5000, 5000);
+	        }
 		
 		mNotificationManager.notify((String) appName, NOTIFICATION_ID, mBuilder.build());
 	}
