@@ -116,7 +116,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		// turn on the ligths
 	        String ledLight = extras.getString("led");
 	        if(ledLight != null) {
-			mBuilder.setLights(Color.argb(0, 227, 116, 0), 5000, 5000);
+			mBuilder.setLights(0xFFFF3300, 5000, 5000);
 	        }
 		
 		mNotificationManager.notify((String) appName, NOTIFICATION_ID, mBuilder.build());
