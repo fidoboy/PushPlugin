@@ -234,7 +234,7 @@ public class PushPlugin extends CordovaPlugin {
 		GCMRegistrar.onDestroy(getApplicationContext());
 		gWebView = null;
 		gECB = null;
-        gForeground = false;
+        	gForeground = false;
 		
 		super.onDestroy();
 	}
